@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class FromLocation(Document):
+class Locations(Document):
 	pass

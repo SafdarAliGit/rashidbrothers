@@ -952,6 +952,7 @@ frappe.ui.form.on('Sales Invoice', {
 	},
 
 	refresh: function(frm) {
+
 		if (frm.doc.docstatus===0 && !frm.doc.is_return) {
 			frm.add_custom_button(__("Fetch Timesheet"), function() {
 				let d = new frappe.ui.Dialog({
@@ -1014,13 +1015,22 @@ frappe.ui.form.on('Sales Invoice', {
 			frm: frm
 		});
 	},
-	// custom work
-	vehicle_freight:function (frm){
+
+	amount:function (frm){
 		var brokery = frm.doc.total - frm.doc.vehicle_freight;
 		frm.set_value('brokery', brokery);
+
 	},
-	total:function (frm){
-		var brokery = frm.doc.total - frm.doc.vehicle_freight;
+	vehicle_freight:function(frm) {
+	    var brokery = frm.doc.total - frm.doc.vehicle_freight;
+		frm.set_value('brokery', brokery);
+	},
+	before_submit:function (frm){
+		 var brokery = frm.doc.total - frm.doc.vehicle_freight;
+		frm.set_value('brokery', brokery);
+	},
+	before_save:function (frm){
+		 var brokery = frm.doc.total - frm.doc.vehicle_freight;
 		frm.set_value('brokery', brokery);
 	}
 });
@@ -1076,3 +1086,4 @@ var select_loyalty_program = function(frm, loyalty_programs) {
 
 	dialog.show();
 }
+

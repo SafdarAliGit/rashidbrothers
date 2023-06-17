@@ -1,27 +1,27 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:from_location",
+ "autoname": "field:location",
  "creation": "2023-06-16 18:55:53.662593",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "from_location"
+  "location"
  ],
  "fields": [
   {
-   "fieldname": "from_location",
+   "fieldname": "location",
    "fieldtype": "Data",
-   "label": "From",
+   "label": "Location",
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-16 19:00:54.124393",
+ "modified": "2023-06-17 14:41:23.357593",
  "modified_by": "Administrator",
  "module": "rashidbrothers",
- "name": "From Location",
+ "name": "Locations",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [

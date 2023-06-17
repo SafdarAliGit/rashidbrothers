@@ -1015,12 +1015,7 @@ frappe.ui.form.on('Sales Invoice', {
 			frm: frm
 		});
 	},
-
-	amount:function (frm){
-		var brokery = frm.doc.total - frm.doc.vehicle_freight;
-		frm.set_value('brokery', brokery);
-
-	},
+	
 	vehicle_freight:function(frm) {
 	    var brokery = frm.doc.total - frm.doc.vehicle_freight;
 		frm.set_value('brokery', brokery);

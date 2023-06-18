@@ -952,6 +952,48 @@ frappe.ui.form.on('Sales Invoice', {
 	},
 
 	refresh: function(frm) {
+		   // journal entry for sale
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_sale_done) {
+            frm.add_custom_button(__('Journal Entry Of Sale'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_sale',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            }).addClass("btn-primary")
+        }
+
+        // journal entry end
+		 // journal entry for purchase
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_purchase_done) {
+            frm.add_custom_button(__('Journal Entry Of Purchase'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_purchase',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            }).addClass("btn-primary")
+        }
+
+        // journal entry end
 
 		if (frm.doc.docstatus===0 && !frm.doc.is_return) {
 			frm.add_custom_button(__("Fetch Timesheet"), function() {
@@ -1015,7 +1057,7 @@ frappe.ui.form.on('Sales Invoice', {
 			frm: frm
 		});
 	},
-	
+
 	vehicle_freight:function(frm) {
 	    var brokery = frm.doc.total - frm.doc.vehicle_freight;
 		frm.set_value('brokery', brokery);

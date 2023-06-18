@@ -34,6 +34,7 @@ def journal_entry_of_sale(source_name):
             je.voucher_type = voucher_type
             je.posting_date = posting_date
             je.user_remark = user_remark
+            je.sales_invoice_id = source_name.name
             # credit
             jea_credit = frappe.new_doc("Journal Entry Account")
             jea_credit.account = credit_account
@@ -85,6 +86,7 @@ def journal_entry_of_purchase(source_name):
                 je.voucher_type = voucher_type
                 je.posting_date = posting_date
                 je.user_remark = user_remark
+                je.sales_invoice_id = source_name.name
                 # debit
                 jea_debit = frappe.new_doc("Journal Entry Account")
                 jea_debit.account = debit_account

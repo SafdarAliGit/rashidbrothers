@@ -953,11 +953,11 @@ frappe.ui.form.on('Sales Invoice', {
 
 	refresh: function(frm) {
 		   // journal entry for sale
-        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_sale_done) {
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_broker_payable_done) {
             frm.add_custom_button(__('Broker Payable Entry'), function () {
 
                 frappe.call({
-                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_sale',
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_broker_payable',
                     args: {
                         'source_name': frm.doc.name
                     },
@@ -974,11 +974,32 @@ frappe.ui.form.on('Sales Invoice', {
 
         // journal entry end
 		 // journal entry for purchase
-        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_purchase_done) {
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_broker_payment_done) {
             frm.add_custom_button(__('Broker Payment Entry'), function () {
 
                 frappe.call({
-                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_purchase',
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_broker_payment',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            }).addClass("btn-primary")
+        }
+
+        // journal entry end
+				   // journal entry for sale
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_service_charges_done) {
+            frm.add_custom_button(__('Service Charges Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_service_charges',
                     args: {
                         'source_name': frm.doc.name
                     },
@@ -995,7 +1016,7 @@ frappe.ui.form.on('Sales Invoice', {
 
         // journal entry end
 		// custom view journal entry doctype
-		if (frm.doc.journal_entry_of_sale_done || frm.doc.journal_entry_of_purchase_done) {
+		if (frm.doc.journal_entry_broker_payable_done || frm.doc.journal_entry_broker_payment_done|| frm.doc.journal_entry_service_charges_done) {
             frm.add_custom_button(__('View Journal Entry'), function () {
 				frappe.set_route("Form", "Journal Entry", {"sales_invoice_id":frm.doc.name});
 

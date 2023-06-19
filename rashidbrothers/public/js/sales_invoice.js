@@ -954,7 +954,7 @@ frappe.ui.form.on('Sales Invoice', {
 	refresh: function(frm) {
 		   // journal entry for sale
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_sale_done) {
-            frm.add_custom_button(__('Journal Entry Of Sale'), function () {
+            frm.add_custom_button(__('Broker Payable Entry'), function () {
 
                 frappe.call({
                     method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_sale',
@@ -975,7 +975,7 @@ frappe.ui.form.on('Sales Invoice', {
         // journal entry end
 		 // journal entry for purchase
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_of_purchase_done) {
-            frm.add_custom_button(__('Journal Entry Of Purchase'), function () {
+            frm.add_custom_button(__('Broker Payment Entry'), function () {
 
                 frappe.call({
                     method: 'rashidbrothers.rashidbrothers.utils.journal_entry_of_purchase',

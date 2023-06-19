@@ -1145,6 +1145,26 @@
  "doctype": "Sales Invoice",
  "links": [
   {
+   "creation": "2023-06-18 22:28:34.783398",
+   "custom": 1,
+   "docstatus": 0,
+   "group": null,
+   "hidden": 0,
+   "idx": 1,
+   "is_child_table": 0,
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "sales_invoice_id",
+   "modified": "2023-06-18 22:28:34.783398",
+   "modified_by": "Administrator",
+   "name": "5c4776a663",
+   "owner": "Administrator",
+   "parent": "Sales Invoice",
+   "parent_doctype": null,
+   "parentfield": "links",
+   "parenttype": "Customize Form",
+   "table_fieldname": null
+  },
+  {
    "creation": "2022-01-25 10:29:57.771398",
    "custom": 0,
    "docstatus": 0,
@@ -1166,6 +1186,29 @@
   }
  ],
  "property_setters": [
+  {
+   "_assign": null,
+   "_comments": null,
+   "_liked_by": null,
+   "_user_tags": null,
+   "creation": "2023-06-18 22:28:34.879603",
+   "default_value": null,
+   "doc_type": "Sales Invoice",
+   "docstatus": 0,
+   "doctype_or_field": "DocType",
+   "field_name": null,
+   "idx": 0,
+   "is_system_generated": 0,
+   "modified": "2023-06-18 22:28:34.879603",
+   "modified_by": "Administrator",
+   "module": null,
+   "name": "Sales Invoice-main-links_order",
+   "owner": "Administrator",
+   "property": "links_order",
+   "property_type": "Small Text",
+   "row_name": null,
+   "value": "[\"5fafb34824\", \"5c4776a663\"]"
+  },
   {
    "_assign": null,
    "_comments": null,

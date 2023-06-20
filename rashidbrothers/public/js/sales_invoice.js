@@ -1016,12 +1016,12 @@ frappe.ui.form.on('Sales Invoice', {
 
         // journal entry end
 		// custom view journal entry doctype
-		if (frm.doc.journal_entry_broker_payable_done || frm.doc.journal_entry_broker_payment_done|| frm.doc.journal_entry_service_charges_done) {
-            frm.add_custom_button(__('View Journal Entry'), function () {
-				frappe.set_route("Form", "Journal Entry", {"sales_invoice_id":frm.doc.name});
-
-            }).addClass("btn-primary")
-        }
+		// if (frm.doc.journal_entry_broker_payable_done || frm.doc.journal_entry_broker_payment_done|| frm.doc.journal_entry_service_charges_done) {
+        //     frm.add_custom_button(__('View Journal Entry'), function () {
+		// 		frappe.set_route("Form", "Journal Entry", {"sales_invoice_id":frm.doc.name});
+		//
+        //     }).addClass("btn-primary")
+        // }
 
 		if (frm.doc.docstatus===0 && !frm.doc.is_return) {
 			frm.add_custom_button(__("Fetch Timesheet"), function() {

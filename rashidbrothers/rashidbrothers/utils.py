@@ -316,7 +316,7 @@ def journal_entry_agent_commission(source_name):
                 except Exception as error:
                     frappe.throw(f"{error}")
 
-                source_name.journal_entry_custom_charges_done = 1
+                source_name.journal_entry_agent_commission_done = 1
                 source_name.save()
             else:
                 frappe.throw("Agent Not selected")

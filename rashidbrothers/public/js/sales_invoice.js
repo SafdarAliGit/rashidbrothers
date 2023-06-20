@@ -750,6 +750,14 @@ frappe.ui.form.on('Sales Invoice', {
 				}
 			}
 		};
+		// custom
+		    frm.set_query("agent", function () {
+            return {
+                filters: [
+                    ["Supplier", "supplier_group", "in", ["Agent"]]
+                ]
+            };
+        });
 	},
 	// When multiple companies are set up. in case company name is changed set default company address
 	company: function(frm){
@@ -1072,7 +1080,7 @@ frappe.ui.form.on('Sales Invoice', {
         }
 		// journal entry for Addon Charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_addon_charges_done) {
-            frm.add_custom_button(__('Addon Charges to Customer'), function () {
+            frm.add_custom_button(__('Addon Charges to Customer(Receiable Entry)'), function () {
 
                 frappe.call({
                     method: 'rashidbrothers.rashidbrothers.utils.journal_entry_addon_charges',

@@ -270,47 +270,50 @@ def journal_entry_agent_commission(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
     if not source_name.journal_entry_agent_commission_done:
         if not source_name.agent_commission <= 0:
-            # master data-----------------
-            voucher_type = "Journal Entry"
-            posting_date = date.today()
-            vehicle_no = source_name.vehicle_no
-            from_location = source_name.from_location
-            to_location = source_name.to_location
-            user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
-            # detail data-------------------
-            # for credit
-            credit_account = "Creditors - RB"
-            party_type = "Supplier"
-            party = source_name.broker
-            credit = source_name.agent_commission
-            # for debit
-            debit_account = "Cost of Goods Sold - RB"
-            debit = source_name.agent_commission
-            try:
-                je = frappe.new_doc("Journal Entry")
-                je.voucher_type = voucher_type
-                je.posting_date = posting_date
-                je.user_remark = user_remark
-                je.sales_invoice_id = source_name.name
-                # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
-                jea_credit.account = credit_account
-                jea_credit.party_type = party_type
-                jea_credit.party = party
-                jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
-                # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
-                jea_debit.account = debit_account
-                jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
-                je.submit()
-                # return je
-            except Exception as error:
-                frappe.throw(f"{error}")
+            if not source_name.agent:
+                # master data-----------------
+                voucher_type = "Journal Entry"
+                posting_date = date.today()
+                vehicle_no = source_name.vehicle_no
+                from_location = source_name.from_location
+                to_location = source_name.to_location
+                user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+                # detail data-------------------
+                # for credit
+                credit_account = "Creditors - RB"
+                party_type = "Supplier"
+                party = source_name.agent
+                credit = source_name.agent_commission
+                # for debit
+                debit_account = "Cost of Goods Sold - RB"
+                debit = source_name.agent_commission
+                try:
+                    je = frappe.new_doc("Journal Entry")
+                    je.voucher_type = voucher_type
+                    je.posting_date = posting_date
+                    je.user_remark = user_remark
+                    je.sales_invoice_id = source_name.name
+                    # credit
+                    jea_credit = frappe.new_doc("Journal Entry Account")
+                    jea_credit.account = credit_account
+                    jea_credit.party_type = party_type
+                    jea_credit.party = party
+                    jea_credit.credit_in_account_currency = credit
+                    je.accounts.append(jea_credit)
+                    # debit
+                    jea_debit = frappe.new_doc("Journal Entry Account")
+                    jea_debit.account = debit_account
+                    jea_debit.debit_in_account_currency = debit
+                    je.accounts.append(jea_debit)
+                    je.submit()
+                    # return je
+                except Exception as error:
+                    frappe.throw(f"{error}")
 
-            source_name.journal_entry_custom_charges_done = 1
-            source_name.save()
+                source_name.journal_entry_custom_charges_done = 1
+                source_name.save()
+            else:
+                frappe.throw("Agent Not selected")
         else:
             frappe.throw("Agent commission can not be 0 or less")
     else:

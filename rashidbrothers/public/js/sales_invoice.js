@@ -976,8 +976,9 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
+				frm.refresh();
 
-            }).addClass("btn-primary")
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end
@@ -997,8 +998,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end
@@ -1018,8 +1019,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 		  // journal entry for empty container
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_empty_container_done) {
@@ -1037,8 +1038,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 		 // journal entry for custom charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_custom_charges_done) {
@@ -1056,8 +1057,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 		// journal entry for agent commission
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_agent_commission_done) {
@@ -1075,8 +1076,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 		// journal entry for Addon Charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_addon_charges_done) {
@@ -1094,8 +1095,8 @@ frappe.ui.form.on('Sales Invoice', {
                         }
                     }
                 });
-
-            }).addClass("btn-primary")
+frm.refresh();
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end

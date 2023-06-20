@@ -76,7 +76,7 @@ def journal_entry_broker_payment(source_name):
             debit_party_type = "Supplier"
             debit_party = source_name.broker
             debit = source_name.paid_to_broker
-                # for credit
+            # for credit
             credit_account = "Debtors - RB"
             credit_party_type = "Customer"
             credit_party = source_name.customer
@@ -112,6 +112,8 @@ def journal_entry_broker_payment(source_name):
             frappe.throw("Paid to broker can not be 0 or less")
     else:
         frappe.throw("Journal Entry For Broker Payment already created")
+
+
 @frappe.whitelist()
 def journal_entry_service_charges(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
@@ -162,6 +164,7 @@ def journal_entry_service_charges(source_name):
             frappe.throw("Service charges can not be 0 or less")
     else:
         frappe.throw("Journal Entry For Service Charges already created")
+
 
 @frappe.whitelist()
 def journal_entry_empty_container(source_name):
@@ -214,6 +217,7 @@ def journal_entry_empty_container(source_name):
     else:
         frappe.throw("Journal Entry For Empty Container already created")
 
+
 @frappe.whitelist()
 def journal_entry_custom_charges(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
@@ -265,12 +269,14 @@ def journal_entry_custom_charges(source_name):
     else:
         frappe.throw("Journal Entry For Custom Charges already created")
 
+
 @frappe.whitelist()
 def journal_entry_agent_commission(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
     if not source_name.journal_entry_agent_commission_done:
         if not source_name.agent_commission <= 0:
-            if not source_name.agent:
+            print(f"-----------------------{source_name.agent}")
+            if source_name.agent:
                 # master data-----------------
                 voucher_type = "Journal Entry"
                 posting_date = date.today()
@@ -318,6 +324,7 @@ def journal_entry_agent_commission(source_name):
             frappe.throw("Agent commission can not be 0 or less")
     else:
         frappe.throw("Journal Entry For Agent Commission already created")
+
 
 @frappe.whitelist()
 def journal_entry_addon_charges(source_name):

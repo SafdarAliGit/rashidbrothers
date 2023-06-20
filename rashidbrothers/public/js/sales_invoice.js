@@ -969,7 +969,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            }).addClass("btn-primary")
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end
@@ -990,7 +990,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            }).addClass("btn-primary")
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end
@@ -1011,7 +1011,83 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            }).addClass("btn-primary")
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+		  // journal entry for empty container
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_empty_container_done) {
+            frm.add_custom_button(__('Empty Container Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_empty_container',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+		 // journal entry for custom charges
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_custom_charges_done) {
+            frm.add_custom_button(__('Custom Charges Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_custom_charges',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+		// journal entry for agent commission
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_agent_commission_done) {
+            frm.add_custom_button(__('Agent Commission Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_agent_commission',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+		// journal entry for Addon Charges
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_addon_charges_done) {
+            frm.add_custom_button(__('Addon Charges to Customer'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_addon_charges',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+                    }
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
         }
 
         // journal entry end

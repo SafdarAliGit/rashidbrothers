@@ -977,7 +977,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 
         // journal entry end
@@ -998,7 +998,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            })).addClass("btn-primary")
         }
 
         // journal entry end
@@ -1019,7 +1019,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 		  // journal entry for empty container
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_empty_container_done) {
@@ -1038,7 +1038,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 		 // journal entry for custom charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_custom_charges_done) {
@@ -1057,7 +1057,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 		// journal entry for agent commission
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_agent_commission_done) {
@@ -1076,11 +1076,11 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 		// journal entry for Addon Charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_addon_charges_done) {
-            frm.add_custom_button(__('Addon Charges to Customer(Receiable Entry)'), function () {
+            frm.add_custom_button(__('Addon Charges to Customer'), function () {
 
                 frappe.call({
                     method: 'rashidbrothers.rashidbrothers.utils.journal_entry_addon_charges',
@@ -1095,7 +1095,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            },__("Post Journal Entries")).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 
         // journal entry end

@@ -998,7 +998,7 @@ frappe.ui.form.on('Sales Invoice', {
                     }
                 });
 
-            })).addClass("btn-primary")
+            }).addClass("btn-primary")
         }
 
         // journal entry end

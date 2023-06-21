@@ -974,9 +974,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-			frm.reload_doc();
+
 
             },__("Post Journal Entries")).addClass("btn-primary")
         }
@@ -996,9 +997,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-			frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 
@@ -1017,9 +1019,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-				frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 		  // journal entry for empty container
@@ -1036,9 +1039,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-				frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 		 // journal entry for custom charges
@@ -1055,9 +1059,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-				frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 		// journal entry for agent commission
@@ -1074,9 +1079,10 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
                 });
-			frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 		// journal entry for Addon Charges
@@ -1093,9 +1099,11 @@ frappe.ui.form.on('Sales Invoice', {
                             // frappe.model.sync(r.message);
                             frappe.show_alert("Journal Entry Created");
                         }
+						frm.reload_doc();
                     }
+
                 });
-			frm.reload_doc();
+
             },__("Post Journal Entries")).addClass("btn-primary")
         }
 

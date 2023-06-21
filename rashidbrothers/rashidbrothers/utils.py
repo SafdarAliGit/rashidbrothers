@@ -14,6 +14,7 @@ def journal_entry_broker_payable(source_name):
         from_location = source_name.from_location
         to_location = source_name.to_location
         user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+        entry_nature = "Broker Payable Entry"
         # detail data-------------------
         # for credit
         credit_account = "Creditors - RB"
@@ -35,6 +36,7 @@ def journal_entry_broker_payable(source_name):
             je.posting_date = posting_date
             je.user_remark = user_remark
             je.sales_invoice_id = source_name.name
+            je.entry_nature = entry_nature
             # credit
             jea_credit = frappe.new_doc("Journal Entry Account")
             jea_credit.account = credit_account
@@ -70,6 +72,7 @@ def journal_entry_broker_payment(source_name):
             from_location = source_name.from_location
             to_location = source_name.to_location
             user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Broker Payment Entry"
             # detail data-------------------
             # for debit
             debit_account = "Creditors - RB"
@@ -87,6 +90,7 @@ def journal_entry_broker_payment(source_name):
                 je.posting_date = posting_date
                 je.user_remark = user_remark
                 je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
                 # debit
                 jea_debit = frappe.new_doc("Journal Entry Account")
                 jea_debit.account = debit_account
@@ -126,6 +130,7 @@ def journal_entry_service_charges(source_name):
             from_location = source_name.from_location
             to_location = source_name.to_location
             user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Service Charges Entry"
             # detail data-------------------
             # for credit
             credit_account = "Creditors - RB"
@@ -141,6 +146,7 @@ def journal_entry_service_charges(source_name):
                 je.posting_date = posting_date
                 je.user_remark = user_remark
                 je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account
@@ -178,6 +184,7 @@ def journal_entry_empty_container(source_name):
             from_location = source_name.from_location
             to_location = source_name.to_location
             user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Empty Container Entry"
             # detail data-------------------
             # for credit
             credit_account = "Creditors - RB"
@@ -193,6 +200,7 @@ def journal_entry_empty_container(source_name):
                 je.posting_date = posting_date
                 je.user_remark = user_remark
                 je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account
@@ -230,6 +238,7 @@ def journal_entry_custom_charges(source_name):
             from_location = source_name.from_location
             to_location = source_name.to_location
             user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Custom Charges Entry"
             # detail data-------------------
             # for credit
             credit_account = "Creditors - RB"
@@ -245,6 +254,7 @@ def journal_entry_custom_charges(source_name):
                 je.posting_date = posting_date
                 je.user_remark = user_remark
                 je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account
@@ -275,7 +285,6 @@ def journal_entry_agent_commission(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
     if not source_name.journal_entry_agent_commission_done:
         if not source_name.agent_commission <= 0:
-            print(f"-----------------------{source_name.agent}")
             if source_name.agent:
                 # master data-----------------
                 voucher_type = "Journal Entry"
@@ -284,6 +293,7 @@ def journal_entry_agent_commission(source_name):
                 from_location = source_name.from_location
                 to_location = source_name.to_location
                 user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+                entry_nature = "Agent Commission Entry"
                 # detail data-------------------
                 # for credit
                 credit_account = "Creditors - RB"
@@ -299,6 +309,7 @@ def journal_entry_agent_commission(source_name):
                     je.posting_date = posting_date
                     je.user_remark = user_remark
                     je.sales_invoice_id = source_name.name
+                    je.entry_nature = entry_nature
                     # credit
                     jea_credit = frappe.new_doc("Journal Entry Account")
                     jea_credit.account = credit_account
@@ -338,6 +349,7 @@ def journal_entry_addon_charges(source_name):
             from_location = source_name.from_location
             to_location = source_name.to_location
             user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Addon Charges Entry"
             # detail data-------------------
             # for credit
             credit_account = "Sales - RB"
@@ -353,6 +365,7 @@ def journal_entry_addon_charges(source_name):
                 je.posting_date = posting_date
                 je.user_remark = user_remark
                 je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account

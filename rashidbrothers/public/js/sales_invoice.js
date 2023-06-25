@@ -1087,7 +1087,7 @@ frappe.ui.form.on('Sales Invoice', {
         }
 		// journal entry for Addon Charges
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_addon_charges_done) {
-            frm.add_custom_button(__('Addon Charges to Customer'), function () {
+            frm.add_custom_button(__('Addon Charges to Customer Entry'), function () {
 
                 frappe.call({
                     method: 'rashidbrothers.rashidbrothers.utils.journal_entry_addon_charges',
@@ -1108,6 +1108,53 @@ frappe.ui.form.on('Sales Invoice', {
         }
 
         // journal entry end
+		// journal entry for Daily Expense
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_daily_expense_done) {
+            frm.add_custom_button(__('Daily Expense Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_daily_expense',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+						frm.reload_doc();
+                    }
+
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+
+        // journal entry end
+			// journal entry for Addon Daily Expense
+        if (frm.doc.docstatus === 1 && !frm.doc.journal_entry__addon_daily_expense_done) {
+            frm.add_custom_button(__('Addon Daily Expense Entry'), function () {
+
+                frappe.call({
+                    method: 'rashidbrothers.rashidbrothers.utils.journal_entry_addon_daily_expense',
+                    args: {
+                        'source_name': frm.doc.name
+                    },
+                    callback: function (r) {
+                        if (!r.exc) {
+                            // frappe.model.sync(r.message);
+                            frappe.show_alert("Journal Entry Created");
+                        }
+						frm.reload_doc();
+                    }
+
+                });
+
+            },__("Post Journal Entries")).addClass("btn-primary")
+        }
+
+        // journal entry end
+
 		// custom view journal entry doctype
 		// if (frm.doc.journal_entry_broker_payable_done || frm.doc.journal_entry_broker_payment_done|| frm.doc.journal_entry_service_charges_done) {
         //     frm.add_custom_button(__('View Journal Entry'), function () {

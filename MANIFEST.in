@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include rashidbrothers *.css
+recursive-include rashidbrothers *.csv
+recursive-include rashidbrothers *.html
+recursive-include rashidbrothers *.ico
+recursive-include rashidbrothers *.js
+recursive-include rashidbrothers *.json
+recursive-include rashidbrothers *.md
+recursive-include rashidbrothers *.png
+recursive-include rashidbrothers *.py
+recursive-include rashidbrothers *.svg
+recursive-include rashidbrothers *.txt
+recursive-exclude rashidbrothers *.pyc

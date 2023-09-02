@@ -51,6 +51,12 @@ def get_columns():
             "width": 100
         },
         {
+            "label": _("FREIGHT RCVD."),
+            "fieldname": "freight_rcvd",
+            "fieldtype": "Currency",
+            "width": 100
+        },
+        {
             "label": _("VEHICLE FR"),
             "fieldname": "vehicle_fr",
             "fieldtype": "Currency",
@@ -76,7 +82,7 @@ def get_columns():
         },
         {
             "label": _("CUSTOM"),
-            "fieldname": "mt_chr",
+            "fieldname": "custom",
             "fieldtype": "Currency",
             "width": 100
         },
@@ -127,7 +133,7 @@ def get_data(filters):
                 `tabSales Invoice`.vehicle_no AS vehicle,
                 `tabSales Invoice`.to_location AS station,
                 `tabSales Invoice`.container_size AS cnt_size,
-                `tabSales Invoice`.paid_to_broker AS bilty_fr,
+                `tabSales Invoice`.paid_to_broker AS freight_rcvd,
                 `tabSales Invoice`.vehicle_freight AS vehicle_fr,
                 `tabSales Invoice`.grand_total - `tabSales Invoice`.vehicle_freight AS commission,
                 `tabSales Invoice`.grand_total -  `tabSales Invoice`.paid_to_broker AS kattoti,
@@ -135,6 +141,7 @@ def get_data(filters):
                 `tabSales Invoice`.custom_charges AS custom,
                 `tabSales Invoice`.daily_expense AS detain,
                 `tabSales Invoice`.service_charges AS extra,
+                `tabSales Invoice`.grand_total AS bilty_fr,
                 `tabSales Invoice`.paid_to_broker - (`tabSales Invoice`.service_charges + `tabSales Invoice`.daily_expense + `tabSales Invoice`.custom_charges + `tabSales Invoice`.empty_container + `tabSales Invoice`.vehicle_freight) AS total   
             FROM 
                 `tabSales Invoice`

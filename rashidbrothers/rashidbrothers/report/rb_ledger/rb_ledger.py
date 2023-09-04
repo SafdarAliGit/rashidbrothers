@@ -119,20 +119,17 @@ def get_columns():
 def get_conditions(filters, doctype):
     conditions = []
     party = None
-    table = ''
     if doctype == 'Sales Invoice':
         party = 'broker'
-        table = 'Sales Invoice'
     else:
         party = 'party'
-        table = 'Journal Entry Account'
 
     if filters.get("from_date"):
         conditions.append(f"`tab{doctype}`.posting_date >= %(from_date)s")
     if filters.get("to_date"):
         conditions.append(f"`tab{doctype}`.posting_date <= %(to_date)s")
     if filters.get("supplier"):
-        conditions.append(f"`tab{table}`.{party} = %(supplier)s")
+        conditions.append(f"`tab{doctype}`.{party} = %(supplier)s")
 
     conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
 
@@ -167,14 +164,14 @@ def get_data(filters):
 
     je_entry = """
                 SELECT 
-                    `tabJournal Entry`.posting_date,
-                    `tabJournal Entry Account`.debit,   
-                    `tabJournal Entry Account`.credit   
+                    `tabGL Entry`.posting_date,
+                    `tabGL Entry`.debit,   
+                    `tabGL Entry`.credit   
                 FROM 
-                    `tabJournal Entry`, `tabJournal Entry Account`
+                    `tabGL Entry`
                 WHERE 
                      {conditions}
-                """.format(conditions=get_conditions(filters, "Journal Entry"))
+                """.format(conditions=get_conditions(filters, "GL Entry"))
 
     si_result = frappe.db.sql(si_query, filters, as_dict=1)
     je_result = frappe.db.sql(je_entry, filters, as_dict=1)

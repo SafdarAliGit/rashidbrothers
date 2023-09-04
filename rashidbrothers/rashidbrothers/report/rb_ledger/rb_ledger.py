@@ -157,6 +157,7 @@ def get_data(filters):
     balance = 0
     si_query = """
             SELECT 
+                CAST('debit' AS INT) AS debit,
                 `tabSales Invoice`.posting_date AS date,
                 `tabSales Invoice`.vehicle_no AS vehicle,
                 `tabSales Invoice`.to_location AS station,

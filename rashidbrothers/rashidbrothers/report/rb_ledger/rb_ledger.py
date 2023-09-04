@@ -169,7 +169,7 @@ def get_data(filters):
                     `tabGL Entry`.credit   
                 FROM 
                     `tabGL Entry`
-                WHERE 
+                WHERE `tabGL Entry`.credit  > 0 AND
                      {conditions}
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 

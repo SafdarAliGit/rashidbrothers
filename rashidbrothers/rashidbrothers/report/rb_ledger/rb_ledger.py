@@ -174,7 +174,7 @@ def get_data(filters):
                 `tabSales Invoice`.paid_to_broker - (`tabSales Invoice`.service_charges + `tabSales Invoice`.daily_expense + `tabSales Invoice`.custom_charges + `tabSales Invoice`.empty_container + `tabSales Invoice`.vehicle_freight) AS total   
             FROM 
                 `tabSales Invoice`
-            WHERE 
+            WHERE  `tabSales Invoice`.docstatus <=1 AND
                  {conditions}
             """.format(conditions=get_conditions(filters, "Sales Invoice"))
 
@@ -187,7 +187,7 @@ def get_data(filters):
                       
                 FROM 
                     `tabGL Entry`
-                WHERE 
+                WHERE  `tabGL Entry`.docstatus <=1 AND
                      {conditions}
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 

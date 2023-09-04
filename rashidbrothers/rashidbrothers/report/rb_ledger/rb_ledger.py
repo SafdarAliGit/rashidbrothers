@@ -112,13 +112,6 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 100
         },
-
-        {
-            "label": _("CREDIT"),
-            "fieldname": "credit",
-            "fieldtype": "Currency",
-            "width": 100
-        },
         {
             "label": _("BALANCE"),
             "fieldname": "balance",
@@ -198,7 +191,7 @@ def get_data(filters):
     # calculate running balance and difference of debit and credit
 
     for dt in data:
-        balance = dt.get('total', 0) + (balance + dt.get('debit', 0) - dt.get('credit', 0))
+        balance = dt.get('total', 0) + (balance + dt.get('debit', 0))
         dt['balance'] = balance
 
     return data

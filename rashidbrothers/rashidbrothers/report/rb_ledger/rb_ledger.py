@@ -99,12 +99,17 @@ def get_columns():
             "width": 100
         },
         {
+            "label": _("Payment"),
+            "fieldname": "payment",
+            "fieldtype": "Currency",
+            "width": 100
+        },
+        {
             "label": _("TOTAL"),
             "fieldname": "total",
             "fieldtype": "Currency",
             "width": 100
         }
-
 
     ]
     return columns
@@ -112,13 +117,21 @@ def get_columns():
 
 def get_conditions(filters, doctype):
     conditions = []
+    party = None
+    table = ''
+    if doctype == 'Sales Invoice':
+        party = 'broker'
+        table = 'Sales Invoice'
+    else:
+        party = 'party'
+        table = 'Journal Entry Account'
 
     if filters.get("from_date"):
         conditions.append(f"`tab{doctype}`.posting_date >= %(from_date)s")
     if filters.get("to_date"):
         conditions.append(f"`tab{doctype}`.posting_date <= %(to_date)s")
     if filters.get("supplier"):
-        conditions.append(f"`tab{doctype}`.broker = %(supplier)s")
+        conditions.append(f"`tab{table}`.{party} = %(supplier)s")
 
     conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
 
@@ -127,6 +140,7 @@ def get_conditions(filters, doctype):
 
 def get_data(filters):
     data = []
+    jea = []
     si_query = """
             SELECT 
                 `tabSales Invoice`.posting_date AS date,
@@ -149,11 +163,23 @@ def get_data(filters):
                  {conditions}
             """.format(conditions=get_conditions(filters, "Sales Invoice"))
 
+    je_entry = """
+                SELECT 
+                    `tabJournal Entry`.posting_date,
+                    `tabJournal Entry Account`.debit,   
+                    `tabJournal Entry Account`.credit   
+                FROM 
+                    `tabJournal Entry`, `tabJournal Entry Account`
+                WHERE 
+                     {conditions}
+                """.format(conditions=get_conditions(filters, "Journal Entry"))
+
     si_result = frappe.db.sql(si_query, filters, as_dict=1)
+    je_result = frappe.db.sql(je_entry, filters, as_dict=1)
     data.extend(si_result)
+    # add Journal Entry
+    for je in je_result:
+        jea.append({'date': je.posting_date, 'payment': je.credit})
+    data.extend(jea)
+    print(f"------------{jea}------------------")
     return data
-
-
-
-
-

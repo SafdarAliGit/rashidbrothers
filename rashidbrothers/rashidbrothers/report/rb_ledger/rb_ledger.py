@@ -181,5 +181,4 @@ def get_data(filters):
     for je in je_result:
         jea.append({'date': je.posting_date, 'payment': je.credit})
     data.extend(jea)
-    print(f"------------{jea}------------------")
     return data

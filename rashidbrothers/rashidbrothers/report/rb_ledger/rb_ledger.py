@@ -144,6 +144,7 @@ def get_data(filters):
     jea = []
     si_query = """
             SELECT 
+                'payment' AS payment,
                 `tabSales Invoice`.posting_date AS date,
                 `tabSales Invoice`.vehicle_no AS vehicle,
                 `tabSales Invoice`.to_location AS station,

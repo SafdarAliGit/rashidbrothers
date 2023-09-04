@@ -120,6 +120,13 @@ def get_columns():
             "default":0
         },
         {
+            "label": _("CREDIT"),
+            "fieldname": "credit",
+            "fieldtype": "Currency",
+            "width": 100,
+            "default": 0
+        },
+        {
             "label": _("BALANCE"),
             "fieldname": "balance",
             "fieldtype": "Currency",
@@ -158,6 +165,7 @@ def get_data(filters):
     si_query = """
             SELECT 
                 CAST('debit' AS INT) AS debit,
+                CAST('credit' AS INT) AS credit,
                 `tabSales Invoice`.posting_date AS date,
                 `tabSales Invoice`.vehicle_no AS vehicle,
                 `tabSales Invoice`.to_location AS station,
@@ -182,11 +190,12 @@ def get_data(filters):
                 SELECT 
                     `tabGL Entry`.posting_date,
                     `tabGL Entry`.debit,   
+                    `tabGL Entry`.credit ,
                     `tabGL Entry`.voucher_no 
                       
-                FROM  
+                FROM 
                     `tabGL Entry`
-                WHERE  `tabGL Entry`.docstatus <=1 AND `tabGL Entry`.debit > 0 AND
+                WHERE  `tabGL Entry`.docstatus <=1 AND
                      {conditions}
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 
@@ -195,7 +204,7 @@ def get_data(filters):
     data.extend(si_result)
     # add Journal Entry
     for je in je_result:
-        jea.append({'date': je.posting_date, 'debit': je.debit, 'voucher_no': je.voucher_no})
+        jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
     data.extend(jea)
     # calculate running balance and difference of debit and credit
 

@@ -9,7 +9,7 @@ def journal_entry_broker_payable(source_name):
     if not source_name.journal_entry_broker_payable_done:
         # master data-----------------
         voucher_type = "Journal Entry"
-        posting_date = date.today()
+        posting_date = source_name.posting_date
         vehicle_no = source_name.vehicle_no
         from_location = source_name.from_location
         to_location = source_name.to_location
@@ -71,7 +71,7 @@ def journal_entry_broker_payment(source_name):
         if not source_name.paid_to_broker <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -133,7 +133,7 @@ def journal_entry_service_charges(source_name):
         if not source_name.service_charges <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -191,7 +191,7 @@ def journal_entry_empty_container(source_name):
         if not source_name.empty_container <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -249,7 +249,7 @@ def journal_entry_custom_charges(source_name):
         if not source_name.custom_charges <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -308,7 +308,7 @@ def journal_entry_agent_commission(source_name):
             if source_name.agent:
                 # master data-----------------
                 voucher_type = "Journal Entry"
-                posting_date = date.today()
+                posting_date = source_name.posting_date
                 vehicle_no = source_name.vehicle_no
                 from_location = source_name.from_location
                 to_location = source_name.to_location
@@ -368,7 +368,7 @@ def journal_entry_addon_charges(source_name):
         if not source_name.addon_charges <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -426,7 +426,7 @@ def journal_entry_daily_expense(source_name):
 
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location
@@ -484,7 +484,7 @@ def journal_entry_addon_daily_expense(source_name):
         if not source_name.addon_daily_expense <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
-            posting_date = date.today()
+            posting_date = source_name.posting_date
             vehicle_no = source_name.vehicle_no
             from_location = source_name.from_location
             to_location = source_name.to_location

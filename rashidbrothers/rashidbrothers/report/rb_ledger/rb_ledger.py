@@ -182,12 +182,11 @@ def get_data(filters):
                 SELECT 
                     `tabGL Entry`.posting_date,
                     `tabGL Entry`.debit,   
-                    `tabGL Entry`.credit ,
                     `tabGL Entry`.voucher_no 
                       
-                FROM 
+                FROM  
                     `tabGL Entry`
-                WHERE  `tabGL Entry`.docstatus <=1 AND
+                WHERE  `tabGL Entry`.docstatus <=1 AND `tabGL Entry`.debit >0 AND,
                      {conditions}
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 

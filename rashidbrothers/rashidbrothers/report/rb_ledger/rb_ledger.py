@@ -98,18 +98,32 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 100
         },
-        {
-            "label": _("Payment"),
-            "fieldname": "payment",
-            "fieldtype": "Currency",
-            "width": 100
-        },
+
         {
             "label": _("TOTAL"),
             "fieldname": "total",
             "fieldtype": "Currency",
             "width": 100,
-            "default":0
+            "default": 0
+        },
+        {
+            "label": _("DEBIT"),
+            "fieldname": "debit",
+            "fieldtype": "Currency",
+            "width": 100
+        },
+
+        {
+            "label": _("CREDIT"),
+            "fieldname": "credit",
+            "fieldtype": "Currency",
+            "width": 100
+        },
+        {
+            "label": _("BALANCE"),
+            "fieldname": "balance",
+            "fieldtype": "Currency",
+            "width": 100
         }
 
     ]
@@ -139,9 +153,10 @@ def get_conditions(filters, doctype):
 def get_data(filters):
     data = []
     jea = []
+    diff = 0
+    balance = 0
     si_query = """
             SELECT 
-                'payment' AS payment,
                 `tabSales Invoice`.posting_date AS date,
                 `tabSales Invoice`.vehicle_no AS vehicle,
                 `tabSales Invoice`.to_location AS station,
@@ -169,7 +184,7 @@ def get_data(filters):
                     `tabGL Entry`.credit   
                 FROM 
                     `tabGL Entry`
-                WHERE `tabGL Entry`.credit  > 0 AND
+                WHERE 
                      {conditions}
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 
@@ -178,6 +193,12 @@ def get_data(filters):
     data.extend(si_result)
     # add Journal Entry
     for je in je_result:
-        jea.append({'date': je.posting_date, 'payment': je.credit})
+        jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit})
     data.extend(jea)
+    # calculate running balance and difference of debit and credit
+
+    for dt in data:
+        balance = dt.get('total', 0) + (balance + dt.get('debit', 0) - dt.get('credit', 0))
+        dt['balance'] = balance
+
     return data

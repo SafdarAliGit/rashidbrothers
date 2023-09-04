@@ -195,7 +195,6 @@ def get_data(filters):
             FROM 
                 `tabGL Entry`
             WHERE  `tabGL Entry`.docstatus <= 1
-                 AND (`tabGL Entry`.voucher_no LIKE 'CRV' OR `tabGL Entry`.voucher_no LIKE 'CPV') AND
                  {conditions}
             """.format(conditions=get_conditions(filters, "GL Entry"))
 

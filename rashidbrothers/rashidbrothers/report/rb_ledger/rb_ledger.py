@@ -187,17 +187,18 @@ def get_data(filters):
             """.format(conditions=get_conditions(filters, "Sales Invoice"))
 
     je_entry = """
-                SELECT 
-                    `tabGL Entry`.posting_date,
-                    `tabGL Entry`.debit,   
-                    `tabGL Entry`.credit ,
-                    `tabGL Entry`.voucher_no 
-                      
-                FROM 
-                    `tabGL Entry`
-                WHERE  `tabGL Entry`.docstatus <=1 AND
-                     {conditions}
-                """.format(conditions=get_conditions(filters, "GL Entry"))
+            SELECT 
+                `tabGL Entry`.posting_date,
+                `tabGL Entry`.debit,   
+                `tabGL Entry`.credit,
+                `tabGL Entry`.voucher_no 
+            FROM 
+                `tabGL Entry`
+            WHERE  `tabGL Entry`.docstatus <= 1
+                 AND `tabGL Entry`.voucher_no LIKE 'CRV' 
+                 OR `tabGL Entry`.voucher_no LIKE 'CPV'
+                 AND {conditions}
+            """.format(conditions=get_conditions(filters, "GL Entry"))
 
     si_result = frappe.db.sql(si_query, filters, as_dict=1)
     je_result = frappe.db.sql(je_entry, filters, as_dict=1)

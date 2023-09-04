@@ -108,7 +108,8 @@ def get_columns():
             "label": _("TOTAL"),
             "fieldname": "total",
             "fieldtype": "Currency",
-            "width": 100
+            "width": 100,
+            "default":0
         }
 
     ]

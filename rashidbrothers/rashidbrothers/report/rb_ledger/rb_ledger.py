@@ -26,6 +26,12 @@ def get_columns():
             "width": 100
         },
         {
+            "label": _("Voucher"),
+            "fieldname": "voucher_no",
+            "fieldtype": "Data",
+            "width": 100
+        },
+        {
             "label": _("VEHICLE"),
             "fieldname": "vehicle",
             "fieldtype": "Data",
@@ -110,7 +116,8 @@ def get_columns():
             "label": _("DEBIT"),
             "fieldname": "debit",
             "fieldtype": "Currency",
-            "width": 100
+            "width": 100,
+            "default":0
         },
         {
             "label": _("BALANCE"),
@@ -174,7 +181,9 @@ def get_data(filters):
                 SELECT 
                     `tabGL Entry`.posting_date,
                     `tabGL Entry`.debit,   
-                    `tabGL Entry`.credit   
+                    `tabGL Entry`.credit ,
+                    `tabGL Entry`.voucher_no 
+                      
                 FROM 
                     `tabGL Entry`
                 WHERE 
@@ -186,7 +195,7 @@ def get_data(filters):
     data.extend(si_result)
     # add Journal Entry
     for je in je_result:
-        jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit})
+        jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
     data.extend(jea)
     # calculate running balance and difference of debit and credit
 

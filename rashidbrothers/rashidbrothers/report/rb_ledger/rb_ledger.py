@@ -194,7 +194,7 @@ def get_data(filters):
                 `tabGL Entry`.voucher_no 
             FROM 
                 `tabGL Entry`
-            WHERE  `tabGL Entry`.docstatus <= 1
+            WHERE  `tabGL Entry`.docstatus <= 1 AND
                  {conditions}
             """.format(conditions=get_conditions(filters, "GL Entry"))
 

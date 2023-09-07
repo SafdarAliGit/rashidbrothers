@@ -201,10 +201,12 @@ def get_data(filters):
     si_result = frappe.db.sql(si_query, filters, as_dict=1)
     je_result = frappe.db.sql(je_entry, filters, as_dict=1)
     data.extend(si_result)
-    # add Journal Entry
+    # add Journal Entry (f'%{search_term}%',)
     for je in je_result:
-        jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
+        if je.voucher_no.startswith('CRV') or je.voucher_no.startswith('CPV'):
+            jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
     data.extend(jea)
+
     # calculate running balance and difference of debit and credit
 
     for dt in data:

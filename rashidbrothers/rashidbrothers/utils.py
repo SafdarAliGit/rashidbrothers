@@ -533,3 +533,60 @@ def journal_entry_addon_daily_expense(source_name):
             frappe.throw("Addon Daily Expense can not be 0 or less")
     else:
         frappe.throw("Journal Entry For Addon Daily Expense already created")
+
+@frappe.whitelist()
+def journal_entry_extra_charges(source_name):
+    source_name = frappe.get_doc("Sales Invoice", source_name)
+    if not source_name.journal_entry_extra_charges_done:
+        if not int(source_name.extra_charges) <= 0:
+            # master data-----------------
+            voucher_type = "Journal Entry"
+            posting_date = source_name.posting_date
+            vehicle_no = source_name.vehicle_no
+            from_location = source_name.from_location
+            to_location = source_name.to_location
+            user_remark = f"Vehicle No : {vehicle_no}, From : {from_location}, To : {to_location}"
+            entry_nature = "Extra Charges Entry"
+            # detail data-------------------
+            # for credit
+            credit_account = "Sales - RB"
+            credit = source_name.extra_charges
+            # for debit
+            debit_account = "Debtors - RB"
+            debit_party_type = "Customer"
+            debit_party = source_name.customer
+            debit = source_name.extra_charges
+            try:
+                je = frappe.new_doc("Journal Entry")
+                je.voucher_type = voucher_type
+                je.posting_date = posting_date
+                je.user_remark = user_remark
+                je.sales_invoice_id = source_name.name
+                je.entry_nature = entry_nature
+                je.bilty_no = source_name.bilty_no
+                je.to_location = to_location
+                je.vehicle_no = vehicle_no
+                je.paid_to_broker = source_name.paid_to_broker
+                # credit
+                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit.account = credit_account
+                jea_credit.credit_in_account_currency = credit
+                je.accounts.append(jea_credit)
+                # debit
+                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit.account = debit_account
+                jea_debit.party_type = debit_party_type
+                jea_debit.party = debit_party
+                jea_debit.debit_in_account_currency = debit
+                je.accounts.append(jea_debit)
+                je.submit()
+                # return je
+            except Exception as error:
+                frappe.throw(f"{error}")
+
+            source_name.journal_entry_extra_charges_done = 1
+            source_name.save()
+        else:
+            frappe.throw("Extra Charges can not be 0 or less")
+    else:
+        frappe.throw("Journal Entry For Extra Charges already created")

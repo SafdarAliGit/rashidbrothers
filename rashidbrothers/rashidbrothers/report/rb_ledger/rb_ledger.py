@@ -104,6 +104,18 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 100
         },
+        {
+            "label": _("EXTRA CHARGES"),
+            "fieldname": "extra_charges",
+            "fieldtype": "Currency",
+            "width": 100
+        },
+        {
+            "label": _("DETENTION"),
+            "fieldname": "detention",
+            "fieldtype": "Currency",
+            "width": 100
+        },
 
         {
             "label": _("TOTAL"),
@@ -179,7 +191,9 @@ def get_data(filters):
                 `tabSales Invoice`.daily_expense AS detain,
                 `tabSales Invoice`.service_charges AS extra,
                 `tabSales Invoice`.grand_total AS bilty_fr,
-                `tabSales Invoice`.paid_to_broker - (`tabSales Invoice`.service_charges + `tabSales Invoice`.daily_expense + `tabSales Invoice`.custom_charges + `tabSales Invoice`.empty_container + `tabSales Invoice`.vehicle_freight) AS total   
+                `tabSales Invoice`.extra_charges AS extra_charges,
+                `tabSales Invoice`.detention AS detention,
+                `tabSales Invoice`.paid_to_broker - (`tabSales Invoice`.service_charges + `tabSales Invoice`.daily_expense + `tabSales Invoice`.custom_charges + `tabSales Invoice`.empty_container + `tabSales Invoice`.vehicle_freight + `tabSales Invoice`.extra_charges + `tabSales Invoice`.detention) AS total   
             FROM 
                 `tabSales Invoice`
             WHERE  `tabSales Invoice`.docstatus <=1 AND

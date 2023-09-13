@@ -93,7 +93,7 @@ def get_columns():
             "width": 100
         },
         {
-            "label": _("DETAIN"),
+            "label": _("WEIGHT CHARGES"),
             "fieldname": "detain",
             "fieldtype": "Currency",
             "width": 100

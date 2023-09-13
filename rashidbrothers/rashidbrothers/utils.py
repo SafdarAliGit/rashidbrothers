@@ -538,7 +538,7 @@ def journal_entry_addon_daily_expense(source_name):
 def journal_entry_extra_charges(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
     if not source_name.journal_entry_extra_charges_done:
-        if not int(source_name.extra_charges) <= 0:
+        if not source_name.extra_charges <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
             posting_date = source_name.posting_date
@@ -549,12 +549,12 @@ def journal_entry_extra_charges(source_name):
             entry_nature = "Extra Charges Entry"
             # detail data-------------------
             # for credit
-            credit_account = "Sales - RB"
+            credit_account = "Creditors - RB"
+            party_type = "Supplier"
+            party = source_name.broker
             credit = source_name.extra_charges
             # for debit
-            debit_account = "Debtors - RB"
-            debit_party_type = "Customer"
-            debit_party = source_name.customer
+            debit_account = "Cost of Goods Sold - RB"
             debit = source_name.extra_charges
             try:
                 je = frappe.new_doc("Journal Entry")
@@ -570,13 +570,13 @@ def journal_entry_extra_charges(source_name):
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account
+                jea_credit.party_type = party_type
+                jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
                 je.accounts.append(jea_credit)
                 # debit
                 jea_debit = frappe.new_doc("Journal Entry Account")
                 jea_debit.account = debit_account
-                jea_debit.party_type = debit_party_type
-                jea_debit.party = debit_party
                 jea_debit.debit_in_account_currency = debit
                 je.accounts.append(jea_debit)
                 je.submit()
@@ -606,12 +606,12 @@ def journal_entry_detention(source_name):
             entry_nature = "Detention Entry"
             # detail data-------------------
             # for credit
-            credit_account = "Sales - RB"
+            credit_account = "Creditors - RB"
+            party_type = "Supplier"
+            party = source_name.broker
             credit = source_name.detention
             # for debit
-            debit_account = "Debtors - RB"
-            debit_party_type = "Customer"
-            debit_party = source_name.customer
+            debit_account = "Cost of Goods Sold - RB"
             debit = source_name.detention
             try:
                 je = frappe.new_doc("Journal Entry")
@@ -627,13 +627,13 @@ def journal_entry_detention(source_name):
                 # credit
                 jea_credit = frappe.new_doc("Journal Entry Account")
                 jea_credit.account = credit_account
+                jea_credit.party_type = party_type
+                jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
                 je.accounts.append(jea_credit)
                 # debit
                 jea_debit = frappe.new_doc("Journal Entry Account")
                 jea_debit.account = debit_account
-                jea_debit.party_type = debit_party_type
-                jea_debit.party = debit_party
                 jea_debit.debit_in_account_currency = debit
                 je.accounts.append(jea_debit)
                 je.submit()

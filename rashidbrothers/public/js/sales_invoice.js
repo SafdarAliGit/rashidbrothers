@@ -780,6 +780,7 @@ frappe.ui.form.on('Sales Invoice', {
 
 	onload: function(frm) {
 		frm.redemption_conversion_factor = null;
+
 	},
 
 	update_stock: function(frm, dt, dn) {
@@ -960,7 +961,118 @@ frappe.ui.form.on('Sales Invoice', {
 	},
 
 	refresh: function(frm) {
+		// custom cancel journal entry
+		var en = "";
+        if (frm.doc.docstatus === 1 && frm.doc.broker_payable > 0 && frm.doc.journal_entry_broker_payable_done) {
+            frm.add_custom_button(__('Cancel Broker Payable Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Broker Payable Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.broker_payment > 0 && frm.doc.journal_entry_broker_payment_done) {
+            frm.add_custom_button(__('Cancel Broker Payment Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Broker Payment Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.service_charges > 0 && frm.doc.journal_entry_service_charges_done) {
+            frm.add_custom_button(__('Cancel Service Charges Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Service Charges Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.empty_container > 0 && frm.doc.journal_entry_empty_container_done) {
+            frm.add_custom_button(__('Cancel Empty Container Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Empty Container Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.custom_charges > 0 && frm.doc.journal_entry_custom_charges_done) {
+            frm.add_custom_button(__('Cancel Custom Charges Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Custom Charges Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.agent_commission > 0 && frm.doc.journal_entry_agent_commission_done) {
+            frm.add_custom_button(__('Cancel Agent Commission Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Agent Commission Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.addon_charges > 0 && frm.doc.journal_entry_addon_charges_done) {
+            frm.add_custom_button(__('Cancel Addon Charges Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Addon Charges Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.daily_expense > 0 && frm.doc.journal_entry_daily_expense_done) {
+            frm.add_custom_button(__('Cancel Daily Expense Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Daily Expense Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.addon_daily_expense > 0 && frm.doc.journal_entry__addon_daily_expense_done) {
+            frm.add_custom_button(__('Cancel Addon Daily Expense Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Addon Daily Expense Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.extra_charges > 0 && frm.doc.journal_entry_extra_charges_done) {
+            frm.add_custom_button(__('Cancel Extra Charges Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Extra Charges Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+		if (frm.doc.docstatus === 1 && frm.doc.detention > 0 && frm.doc.journal_entry_detention_done) {
+            frm.add_custom_button(__('Cancel Detention Entry'), function() {
+                frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
+					en = "Detention Entry"
+                    cancelJournalEntry(frm,en);
+                });
+            },__("Cancel Journal Entries")).addClass("btn-primary")
+        }
+
+frm.doc.journal_entry_detention_done
+
+function cancelJournalEntry(frm,entry_nature) {
+			console.log(entry_nature);
+    frappe.call({
+        method: 'rashidbrothers.rashidbrothers.utils.journal_entry_cancel',
+        args: {
+            sales_invoice_no: frm.doc.name,
+			entry_nature : entry_nature
+        },
+        callback: function(r) {
+            if (r.message) {
+                frappe.msgprint(__('Journal Entry and related GL Entries have been cancelled.'));
+                frm.reload_doc();
+            }
+        }
+    });
+}
+// end of cancel
 		   // journal entry for sale
+
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_broker_payable_done) {
             frm.add_custom_button(__('Broker Payable Entry'), function () {
 
@@ -1178,6 +1290,7 @@ frappe.ui.form.on('Sales Invoice', {
 
         // journal entry end
 // journal entry for Detention charges
+
         if (frm.doc.docstatus === 1 && !frm.doc.journal_entry_detention_done) {
             frm.add_custom_button(__('Detention Entry'), function () {
 

@@ -9,7 +9,10 @@ app_license = "MIT"
 
 # Includes in <head>
 # ------------------
-
+# override_doctype_class = {
+#        "Sales Invoice": "rashidbrothers.overrides.sales_invoice_overrides.SalesInvoiceOverrides",
+#        "Journal Entry": "rashidbrothers.overrides.journal_entry_overrides.JournalEntryOverrides",
+# }
 # include js, css files in header of desk.html
 app_include_css = "/assets/rashidbrothers/css/rashidbrothers.css"
 # app_include_js = "/assets/rashidbrothers/js/rashidbrothers.js"
@@ -95,11 +98,9 @@ doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
 
-# Document Events
+
+# Document Events.
 # ---------------
 # Hook on document methods and events
 

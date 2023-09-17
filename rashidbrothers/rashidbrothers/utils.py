@@ -3,6 +3,111 @@ from datetime import date
 import frappe
 
 
+# ======================JOURNAL ENTRY CANCEL======
+@frappe.whitelist()
+def journal_entry_cancel(**args):
+    try:
+        # upate flag
+        doc = frappe.get_doc('Sales Invoice', args.get('sales_invoice_no'))
+        if args.get("entry_nature") == "Broker Payable Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_broker_payable_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Broker Payment Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_broker_payment_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Service Charges Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_service_charges_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Empty Container Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_empty_container_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Custom Charges Entry":
+            doc.journal_entry_custom_charges_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Agent Commission Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_agent_commission_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Addon Charges Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_addon_charges_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Daily Expense Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_daily_expense_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Addon Daily Expense Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry__addon_daily_expense_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Extra Charges Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_extra_charges_done = 0
+            doc.save()
+        if args.get("entry_nature") == "Detention Entry":
+            je = frappe.get_all('Journal Entry', filters={'sales_invoice_id': args.get('sales_invoice_no'),
+                                                          'entry_nature': args.get('entry_nature'),'docstatus': ['<=', 1]}, fields=['name'])
+            for j in je:
+                je_object = frappe.get_doc('Journal Entry', j.get('name'))
+                je_object.cancel()
+            frappe.db.commit()
+            doc.journal_entry_detention_done = 0
+            doc.save()
+
+    except Exception as error:
+        frappe.throw(f"{error}")
+
+
+# ===================JOURNAL ENTRY================
 @frappe.whitelist()
 def journal_entry_broker_payable(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
@@ -418,6 +523,7 @@ def journal_entry_addon_charges(source_name):
     else:
         frappe.throw("Journal Entry For Addon Charges already created")
 
+
 @frappe.whitelist()
 def journal_entry_daily_expense(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
@@ -477,6 +583,7 @@ def journal_entry_daily_expense(source_name):
     else:
         frappe.throw("Journal Entry For Daily Expense already created")
 
+
 @frappe.whitelist()
 def journal_entry_addon_daily_expense(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
@@ -534,11 +641,12 @@ def journal_entry_addon_daily_expense(source_name):
     else:
         frappe.throw("Journal Entry For Addon Daily Expense already created")
 
+
 @frappe.whitelist()
 def journal_entry_extra_charges(source_name):
     source_name = frappe.get_doc("Sales Invoice", source_name)
     if not source_name.journal_entry_extra_charges_done:
-        if not source_name.extra_charges <= 0:
+        if not int(source_name.extra_charges) <= 0:
             # master data-----------------
             voucher_type = "Journal Entry"
             posting_date = source_name.posting_date
@@ -590,6 +698,7 @@ def journal_entry_extra_charges(source_name):
             frappe.throw("Extra Charges can not be 0 or less")
     else:
         frappe.throw("Journal Entry For Extra Charges already created")
+
 
 @frappe.whitelist()
 def journal_entry_detention(source_name):

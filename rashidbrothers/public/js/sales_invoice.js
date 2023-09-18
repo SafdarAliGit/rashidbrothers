@@ -962,9 +962,8 @@ frappe.ui.form.on('Sales Invoice', {
 
 	refresh: function(frm) {
 		// custom cancel journal entry
-		console.log(frm.doc.docstatus +"-"+ frm.doc.broker_payable + "-"+frm.doc.journal_entry_broker_payable_done);
 		var en = "";
-        if (frm.doc.docstatus === 1 && frm.doc.vehicle_freight > 0 && frm.doc.journal_entry_broker_payable_done == 1) {
+        if (frm.doc.docstatus === 1   && frm.doc.journal_entry_broker_payable_done == 1) {
             frm.add_custom_button(__('Cancel Broker Payable Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Broker Payable Entry"
@@ -972,7 +971,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.paid_to_broker > 0 && frm.doc.journal_entry_broker_payment_done ==1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_broker_payment_done ==1) {
             frm.add_custom_button(__('Cancel Broker Payment Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Broker Payment Entry"
@@ -980,7 +979,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.service_charges > 0 && frm.doc.journal_entry_service_charges_done == 1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_service_charges_done == 1) {
             frm.add_custom_button(__('Cancel Service Charges Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Service Charges Entry"
@@ -988,7 +987,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.empty_container > 0 && frm.doc.journal_entry_empty_container_done ==1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_empty_container_done ==1) {
             frm.add_custom_button(__('Cancel Empty Container Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Empty Container Entry"
@@ -996,7 +995,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.custom_charges > 0 && frm.doc.journal_entry_custom_charges_done == 1) {
+		if (frm.doc.docstatus === 1 && frm.doc.journal_entry_custom_charges_done == 1) {
             frm.add_custom_button(__('Cancel Custom Charges Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Custom Charges Entry"
@@ -1004,7 +1003,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.agent_commission > 0 && frm.doc.journal_entry_agent_commission_done ==1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_agent_commission_done ==1) {
             frm.add_custom_button(__('Cancel Agent Commission Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Agent Commission Entry"
@@ -1012,7 +1011,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.addon_charges > 0 && frm.doc.journal_entry_addon_charges_done ==1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_addon_charges_done ==1) {
             frm.add_custom_button(__('Cancel Addon Charges Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Addon Charges Entry"
@@ -1020,7 +1019,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.daily_expense > 0 && frm.doc.journal_entry_daily_expense_done == 1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_daily_expense_done == 1) {
             frm.add_custom_button(__('Cancel Daily Expense Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Daily Expense Entry"
@@ -1028,7 +1027,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.addon_daily_expense > 0 && frm.doc.journal_entry__addon_daily_expense_done == 1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry__addon_daily_expense_done == 1) {
             frm.add_custom_button(__('Cancel Addon Daily Expense Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Addon Daily Expense Entry"
@@ -1036,7 +1035,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.extra_charges > 0 && frm.doc.journal_entry_extra_charges_done == 1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_extra_charges_done == 1) {
             frm.add_custom_button(__('Cancel Extra Charges Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Extra Charges Entry"
@@ -1044,7 +1043,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.detention > 0 && frm.doc.journal_entry_detention_done ==1) {
+		if (frm.doc.docstatus === 1  && frm.doc.journal_entry_detention_done ==1) {
             frm.add_custom_button(__('Cancel Detention Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Detention Entry"

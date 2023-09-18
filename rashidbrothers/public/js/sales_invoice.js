@@ -962,6 +962,7 @@ frappe.ui.form.on('Sales Invoice', {
 
 	refresh: function(frm) {
 		// custom cancel journal entry
+		console.log(frm.doc.docstatus +"-"+ frm.doc.broker_payable + "-"+frm.doc.journal_entry_broker_payable_done);
 		var en = "";
         if (frm.doc.docstatus === 1 && frm.doc.broker_payable > 0 && frm.doc.journal_entry_broker_payable_done == 1) {
             frm.add_custom_button(__('Cancel Broker Payable Entry'), function() {

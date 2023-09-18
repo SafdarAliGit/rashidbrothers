@@ -964,7 +964,7 @@ frappe.ui.form.on('Sales Invoice', {
 		// custom cancel journal entry
 		console.log(frm.doc.docstatus +"-"+ frm.doc.broker_payable + "-"+frm.doc.journal_entry_broker_payable_done);
 		var en = "";
-        if (frm.doc.docstatus === 1 && frm.doc.broker_payable > 0 && frm.doc.journal_entry_broker_payable_done == 1) {
+        if (frm.doc.docstatus === 1 && frm.doc.vehicle_freight > 0 && frm.doc.journal_entry_broker_payable_done == 1) {
             frm.add_custom_button(__('Cancel Broker Payable Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Broker Payable Entry"
@@ -972,7 +972,7 @@ frappe.ui.form.on('Sales Invoice', {
                 });
             },__("Cancel Journal Entries")).addClass("btn-primary")
         }
-		if (frm.doc.docstatus === 1 && frm.doc.broker_payment > 0 && frm.doc.journal_entry_broker_payment_done ==1) {
+		if (frm.doc.docstatus === 1 && frm.doc.paid_to_broker > 0 && frm.doc.journal_entry_broker_payment_done ==1) {
             frm.add_custom_button(__('Cancel Broker Payment Entry'), function() {
                 frappe.confirm(__('Are you sure you want to cancel this Journal Entry and its related GL Entries?'), function() {
 					en = "Broker Payment Entry"

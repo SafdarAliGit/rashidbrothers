@@ -15,6 +15,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_broker_payable_done = 0
             doc.save()
@@ -24,6 +28,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_broker_payment_done = 0
             doc.save()
@@ -33,6 +41,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_service_charges_done = 0
             doc.save()
@@ -42,6 +54,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_empty_container_done = 0
             doc.save()
@@ -54,6 +70,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_agent_commission_done = 0
             doc.save()
@@ -63,6 +83,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_addon_charges_done = 0
             doc.save()
@@ -72,6 +96,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_daily_expense_done = 0
             doc.save()
@@ -81,6 +109,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry__addon_daily_expense_done = 0
             doc.save()
@@ -90,6 +122,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_extra_charges_done = 0
             doc.save()
@@ -99,6 +135,10 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
+                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
+                for gle in gl_object:
+                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
+                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_detention_done = 0
             doc.save()

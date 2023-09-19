@@ -15,10 +15,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_broker_payable_done = 0
             doc.save()
@@ -28,10 +24,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_broker_payment_done = 0
             doc.save()
@@ -41,10 +33,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_service_charges_done = 0
             doc.save()
@@ -54,10 +42,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_empty_container_done = 0
             doc.save()
@@ -70,10 +54,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_agent_commission_done = 0
             doc.save()
@@ -83,10 +63,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_addon_charges_done = 0
             doc.save()
@@ -96,10 +72,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_daily_expense_done = 0
             doc.save()
@@ -109,10 +81,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry__addon_daily_expense_done = 0
             doc.save()
@@ -122,10 +90,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_extra_charges_done = 0
             doc.save()
@@ -135,10 +99,6 @@ def journal_entry_cancel(**args):
             for j in je:
                 je_object = frappe.get_doc('Journal Entry', j.get('name'))
                 je_object.cancel()
-                gl_object = frappe.get_all('GL Entry', filters={'voucher_no': j.get('name')}, fields=['name'])
-                for gle in gl_object:
-                    gle_object = frappe.get_doc('GL Entry', gle.get('name'))
-                    gle_object.cancel()
             frappe.db.commit()
             doc.journal_entry_detention_done = 0
             doc.save()
@@ -187,17 +147,15 @@ def journal_entry_broker_payable(source_name):
             je.vehicle_no = vehicle_no
             je.paid_to_broker = source_name.paid_to_broker
             # credit
-            jea_credit = frappe.new_doc("Journal Entry Account")
+            jea_credit = je.append("accounts",{})
             jea_credit.account = credit_account
             jea_credit.party_type = party_type
             jea_credit.party = party
             jea_credit.credit_in_account_currency = credit
-            je.accounts.append(jea_credit)
             # debit
-            jea_debit = frappe.new_doc("Journal Entry Account")
+            jea_debit = je.append("accounts",{})
             jea_debit.account = debit_account
             jea_debit.debit_in_account_currency = debit
-            je.accounts.append(jea_debit)
             je.submit()
             # return je
         except Exception as error:
@@ -245,19 +203,17 @@ def journal_entry_broker_payment(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.party_type = debit_party_type
                 jea_debit.party = debit_party
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = credit_party_type
                 jea_credit.party = credit_party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -305,17 +261,15 @@ def journal_entry_service_charges(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -363,17 +317,15 @@ def journal_entry_empty_container(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -421,17 +373,15 @@ def journal_entry_custom_charges(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -480,17 +430,15 @@ def journal_entry_agent_commission(source_name):
                     je.vehicle_no = vehicle_no
                     je.paid_to_broker = source_name.paid_to_broker
                     # credit
-                    jea_credit = frappe.new_doc("Journal Entry Account")
+                    jea_credit = je.append("accounts",{})
                     jea_credit.account = credit_account
                     jea_credit.party_type = party_type
                     jea_credit.party = party
                     jea_credit.credit_in_account_currency = credit
-                    je.accounts.append(jea_credit)
                     # debit
-                    jea_debit = frappe.new_doc("Journal Entry Account")
+                    jea_debit = je.append("accounts",{})
                     jea_debit.account = debit_account
                     jea_debit.debit_in_account_currency = debit
-                    je.accounts.append(jea_debit)
                     je.submit()
                     # return je
                 except Exception as error:
@@ -540,17 +488,15 @@ def journal_entry_addon_charges(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.party_type = debit_party_type
                 jea_debit.party = debit_party
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -599,17 +545,15 @@ def journal_entry_daily_expense(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -658,17 +602,15 @@ def journal_entry_addon_daily_expense(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.party_type = debit_party_type
                 jea_debit.party = debit_party
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -716,17 +658,15 @@ def journal_entry_extra_charges(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:
@@ -774,17 +714,15 @@ def journal_entry_detention(source_name):
                 je.vehicle_no = vehicle_no
                 je.paid_to_broker = source_name.paid_to_broker
                 # credit
-                jea_credit = frappe.new_doc("Journal Entry Account")
+                jea_credit = je.append("accounts",{})
                 jea_credit.account = credit_account
                 jea_credit.party_type = party_type
                 jea_credit.party = party
                 jea_credit.credit_in_account_currency = credit
-                je.accounts.append(jea_credit)
                 # debit
-                jea_debit = frappe.new_doc("Journal Entry Account")
+                jea_debit = je.append("accounts",{})
                 jea_debit.account = debit_account
                 jea_debit.debit_in_account_currency = debit
-                je.accounts.append(jea_debit)
                 je.submit()
                 # return je
             except Exception as error:

@@ -33,14 +33,14 @@ def get_columns():
             "width": 100
         },
         {
-            "label": _("VEHICLE"),
-            "fieldname": "vehicle",
+            "label": _("BILTY NO"),
+            "fieldname": "bilty_no",
             "fieldtype": "Data",
             "width": 100
         },
         {
-            "label": _("STATION"),
-            "fieldname": "station",
+            "label": _("VEHICLE"),
+            "fieldname": "vehicle",
             "fieldtype": "Data",
             "width": 100
         },
@@ -63,18 +63,7 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 100
         },
-        {
-            "label": _("VEHICLE FR"),
-            "fieldname": "vehicle_fr",
-            "fieldtype": "Currency",
-            "width": 100
-        },
-        {
-            "label": _("COMISION"),
-            "fieldname": "commission",
-            "fieldtype": "Currency",
-            "width": 100
-        },
+
         {
             "label": _("KATTOTI"),
             "fieldname": "kattoti",
@@ -82,38 +71,14 @@ def get_columns():
             "width": 100
         },
         {
-            "label": _("MT CHR"),
-            "fieldname": "mt_chr",
+            "label": _("ADDON CHARGES"),
+            "fieldname": "addon_charges",
             "fieldtype": "Currency",
             "width": 100
         },
         {
-            "label": _("CUSTOM"),
-            "fieldname": "custom",
-            "fieldtype": "Currency",
-            "width": 100
-        },
-        {
-            "label": _("WEIGHT CHARGES"),
-            "fieldname": "detain",
-            "fieldtype": "Currency",
-            "width": 100
-        },
-        {
-            "label": _("EXTRA"),
-            "fieldname": "extra",
-            "fieldtype": "Currency",
-            "width": 100
-        },
-        {
-            "label": _("EXTRA CHARGES"),
-            "fieldname": "extra_charges",
-            "fieldtype": "Currency",
-            "width": 100
-        },
-        {
-            "label": _("DETENTION"),
-            "fieldname": "detention",
+            "label": _("Ovr Wt Charges"),
+            "fieldname": "overweight_charges",
             "fieldtype": "Currency",
             "width": 100
         },
@@ -154,7 +119,7 @@ def get_conditions(filters, doctype):
     conditions = []
     party = None
     if doctype == 'Sales Invoice':
-        party = 'broker'
+        party = 'customer'
     else:
         party = 'party'
 
@@ -162,8 +127,8 @@ def get_conditions(filters, doctype):
         conditions.append(f"`tab{doctype}`.posting_date >= %(from_date)s")
     if filters.get("to_date"):
         conditions.append(f"`tab{doctype}`.posting_date <= %(to_date)s")
-    if filters.get("supplier"):
-        conditions.append(f"`tab{doctype}`.{party} = %(supplier)s")
+    if filters.get("customer"):
+        conditions.append(f"`tab{doctype}`.{party} = %(customer)s")
 
     conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
 
@@ -180,22 +145,17 @@ def get_data(filters):
                 CAST('debit' AS INT) AS debit,
                 CAST('credit' AS INT) AS credit,
                 `tabSales Invoice`.posting_date AS date,
-                 `tabSales Invoice`.name AS voucher_no,
+                `tabSales Invoice`.name AS voucher_no,
+                `tabSales Invoice`.bilty_no,
                 `tabSales Invoice`.vehicle_no AS vehicle,
-                `tabSales Invoice`.to_location AS station,
                 `tabSales Invoice`.container_size AS cnt_size,
-                `tabSales Invoice`.paid_to_broker AS freight_rcvd,
-                `tabSales Invoice`.vehicle_freight AS vehicle_fr,
-                `tabSales Invoice`.grand_total - `tabSales Invoice`.vehicle_freight AS commission,
-                `tabSales Invoice`.grand_total -  `tabSales Invoice`.paid_to_broker AS kattoti,
-                `tabSales Invoice`.empty_container AS mt_chr,
-                `tabSales Invoice`.custom_charges AS custom,
-                `tabSales Invoice`.daily_expense AS detain,
-                `tabSales Invoice`.service_charges AS extra,
                 `tabSales Invoice`.grand_total AS bilty_fr,
-                `tabSales Invoice`.extra_charges AS extra_charges,
-                `tabSales Invoice`.detention AS detention,
-                `tabSales Invoice`.paid_to_broker - (`tabSales Invoice`.service_charges + `tabSales Invoice`.daily_expense + `tabSales Invoice`.custom_charges + `tabSales Invoice`.empty_container + `tabSales Invoice`.vehicle_freight + `tabSales Invoice`.extra_charges + `tabSales Invoice`.detention) AS total   
+                `tabSales Invoice`.paid_to_broker AS freight_rcvd,
+                `tabSales Invoice`.grand_total -  `tabSales Invoice`.paid_to_broker AS kattoti,
+                `tabSales Invoice`.addon_charges,
+                `tabSales Invoice`.addon_daily_expense AS overweight_charges,
+                `tabSales Invoice`.remarks,
+                ((`tabSales Invoice`.grand_total -  `tabSales Invoice`.paid_to_broker) + `tabSales Invoice`.addon_charges + `tabSales Invoice`.addon_daily_expense) AS total   
             FROM 
                 `tabSales Invoice`
             WHERE  `tabSales Invoice`.docstatus <=1 AND
@@ -224,9 +184,9 @@ def get_data(filters):
     data.extend(jea)
 
     # calculate running balance and difference of debit and credit
-
+    balance = 0
     for dt in data:
-        balance = dt.get('total', 0) + (balance + dt.get('debit', 0))
+        balance = dt.get('total', 0) + dt.get('debit', 0) + (balance - dt.get('credit', 0))
         dt['balance'] = balance
 
     return data

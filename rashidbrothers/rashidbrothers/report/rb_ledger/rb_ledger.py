@@ -124,27 +124,28 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 100,
             "default": 0
-        },
-        {
-            "label": _("DEBIT"),
-            "fieldname": "debit",
-            "fieldtype": "Currency",
-            "width": 100,
-            "default":0
-        },
-        {
-            "label": _("CREDIT"),
-            "fieldname": "credit",
-            "fieldtype": "Currency",
-            "width": 100,
-            "default": 0
-        },
-        {
-            "label": _("BALANCE"),
-            "fieldname": "balance",
-            "fieldtype": "Currency",
-            "width": 100
         }
+        # ,
+        # {
+        #     "label": _("DEBIT"),
+        #     "fieldname": "debit",
+        #     "fieldtype": "Currency",
+        #     "width": 100,
+        #     "default":0
+        # },
+        # {
+        #     "label": _("CREDIT"),
+        #     "fieldname": "credit",
+        #     "fieldtype": "Currency",
+        #     "width": 100,
+        #     "default": 0
+        # },
+        # {
+        #     "label": _("BALANCE"),
+        #     "fieldname": "balance",
+        #     "fieldtype": "Currency",
+        #     "width": 100
+        # }
 
     ]
     return columns
@@ -202,31 +203,31 @@ def get_data(filters):
                  {conditions}
             """.format(conditions=get_conditions(filters, "Sales Invoice"))
 
-    je_entry = """
-            SELECT 
-                `tabGL Entry`.posting_date,
-                `tabGL Entry`.debit,   
-                `tabGL Entry`.credit,
-                `tabGL Entry`.voucher_no 
-            FROM 
-                `tabGL Entry`
-            WHERE  `tabGL Entry`.docstatus <= 1 AND
-                 {conditions}
-            """.format(conditions=get_conditions(filters, "GL Entry"))
+    # je_entry = """
+    #         SELECT
+    #             `tabGL Entry`.posting_date,
+    #             `tabGL Entry`.debit,
+    #             `tabGL Entry`.credit,
+    #             `tabGL Entry`.voucher_no
+    #         FROM
+    #             `tabGL Entry`
+    #         WHERE  `tabGL Entry`.docstatus <= 1 AND
+    #              {conditions}
+    #         """.format(conditions=get_conditions(filters, "GL Entry"))
 
     si_result = frappe.db.sql(si_query, filters, as_dict=1)
-    je_result = frappe.db.sql(je_entry, filters, as_dict=1)
+    # je_result = frappe.db.sql(je_entry, filters, as_dict=1)
     data.extend(si_result)
     # add Journal Entry (f'%{search_term}%',)
-    for je in je_result:
-        if je.voucher_no.startswith('CRV') or je.voucher_no.startswith('CPV'):
-            jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
-    data.extend(jea)
+    # for je in je_result:
+    #     if je.voucher_no.startswith('CRV') or je.voucher_no.startswith('CPV'):
+    #         jea.append({'date': je.posting_date, 'debit': je.debit, 'credit': je.credit,'voucher_no': je.voucher_no})
+    # data.extend(jea)
 
     # calculate running balance and difference of debit and credit
 
-    for dt in data:
-        balance = dt.get('total', 0) + (balance + dt.get('debit', 0))
-        dt['balance'] = balance
+    # for dt in data:
+    #     balance = dt.get('total', 0) + (balance + dt.get('debit', 0))
+    #     dt['balance'] = balance
 
     return data

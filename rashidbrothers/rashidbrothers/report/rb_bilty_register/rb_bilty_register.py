@@ -11,32 +11,7 @@ from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import (
     get_accounting_dimensions,
     get_dimension_with_children,
 )
-from erpnext.accounts.report.utils import get_values_for_columns
-
-
-def get_table_name(table_name: str, wrap_in_backticks: bool = False) -> str:
-    name = f"tab{table_name}" if not table_name.startswith("__") else table_name
-
-    if wrap_in_backticks:
-        return f"`{name}`"
-
-    return name
-
-
-def get_query_columns(report_columns):
-    if not report_columns:
-        return ""
-
-    columns = []
-    for column in report_columns:
-        fieldname = column["fieldname"]
-
-        if doctype := column.get("_doctype"):
-            columns.append(f"`{get_table_name(doctype)}`.`{fieldname}`")
-        else:
-            columns.append(fieldname)
-
-    return ", " + ", ".join(columns)
+from erpnext.accounts.report.utils import get_query_columns, get_values_for_columns
 
 
 def execute(filters=None):

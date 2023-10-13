@@ -1,5 +1,5 @@
 {
- "add_total_row": 0,
+ "add_total_row": 1,
  "columns": [],
  "creation": "2023-10-13 14:33:59.630579",
  "disable_prepared_report": 0,
@@ -11,7 +11,7 @@
  "is_standard": "Yes",
  "json": "{\"filters\":[],\"fields\":[[\"posting_date\",\"Sales Invoice\"],[\"vehicle_no\",\"Sales Invoice\"],[\"broker\",\"Sales Invoice\"],[\"to_location\",\"Sales Invoice\"],[\"sender_name\",\"Sales Invoice\"],[\"receiver_name\",\"Sales Invoice\"],[\"vehicle_freight\",\"Sales Invoice\"],[\"amount\",\"Sales Invoice Item\"],[\"brokery\",\"Sales Invoice\"],[\"agent\",\"Sales Invoice\"],[\"agent_commission\",\"Sales Invoice\"],[\"empty_container\",\"Sales Invoice\"],[\"service_charges\",\"Sales Invoice\"],[\"bilty_no\",\"Sales Invoice\"],[\"container_no\",\"Sales Invoice\"],[\"name\",\"Sales Invoice\"]],\"order_by\":\"`tabSales Invoice`.`modified` desc\",\"add_totals_row\":false,\"page_length\":20,\"column_widths\":{\"posting_date\":120,\"vehicle_no\":120,\"broker\":120,\"to_location\":120,\"sender_name\":120,\"receiver_name\":120,\"vehicle_freight\":120,\"Sales Invoice Item:amount\":120,\"brokery\":120,\"agent\":120,\"agent_commission\":120,\"empty_container\":120,\"service_charges\":120,\"bilty_no\":120,\"container_no\":120,\"name\":120},\"group_by\":null}",
  "letter_head": "RBC Heade",
- "modified": "2023-10-13 14:33:59.630579",
+ "modified": "2023-10-13 20:30:44.056133",
  "modified_by": "Administrator",
  "module": "rashidbrothers",
  "name": "RB BILTY REGISTER",

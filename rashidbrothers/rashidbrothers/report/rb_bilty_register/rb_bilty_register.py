@@ -11,7 +11,19 @@ from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import (
     get_accounting_dimensions,
     get_dimension_with_children,
 )
-from erpnext.accounts.report.utils import get_values_for_columns
+
+
+def get_values_for_columns(report_columns, report_row):
+    values = {}
+
+    if not report_columns:
+        return values
+
+    for column in report_columns:
+        fieldname = column["fieldname"]
+        values[fieldname] = report_row.get(fieldname)
+
+    return values
 
 
 def get_table_name(table_name: str, wrap_in_backticks: bool = False) -> str:

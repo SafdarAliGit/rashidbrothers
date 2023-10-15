@@ -440,14 +440,13 @@ def get_conditions(filters):
 
     return conditions
 
-
 def get_invoices(filters, additional_query_columns):
     conditions = get_conditions(filters)
     return frappe.db.sql(
         """
         select name, posting_date, debit_to, project, customer,
         brokery, empty_container, service_charges, custom_charges,
-        brokery - (empty_container + custom_charges + service_charges) AS net_profit,
+        brokery - (empty_container + custom_charges + service_charges + detention + extra_charges + daily_expense) AS net_profit,
         customer_name, owner, remarks, territory, tax_id, customer_group,
         base_net_total, base_grand_total, base_rounded_total, outstanding_amount,
         is_internal_customer, represents_company, company {0}

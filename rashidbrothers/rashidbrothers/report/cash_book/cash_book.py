@@ -45,13 +45,14 @@ def get_columns():
         },
         {
             "label": _("Debit"),
-            "fieldname": "credit",
+            "fieldname": "debit",
             "fieldtype": "Currency",
             "width": 120
         },
+
         {
             "label": _("Credit"),
-            "fieldname": "debit",
+            "fieldname": "credit",
             "fieldtype": "Currency",
             "width": 120
         },
@@ -112,8 +113,8 @@ def get_data(filters):
 						`tabGL Entry`
 					WHERE
 						{conditions} AND `tabGL Entry`.is_cancelled = 0
-						AND `tabGL Entry`.credit >0
-						AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) !='Cash'
+						AND `tabGL Entry`.debit >0
+						AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) ='Cash'
 					""".format(conditions=get_conditions(filters, "GL Entry"))
 
     cash_payment = """SELECT
@@ -129,8 +130,8 @@ def get_data(filters):
 						`tabGL Entry`
 					WHERE
 						{conditions} AND `tabGL Entry`.is_cancelled = 0
-						AND `tabGL Entry`.debit >0
-						AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) !='Cash'
+						AND `tabGL Entry`.credit >0
+						AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) ='Cash'
 				""".format(conditions=get_conditions(filters, "GL Entry"))
 
     cash_receipt_result = frappe.db.sql(cash_receipt, filters, as_dict=1)
@@ -143,13 +144,13 @@ def get_data(filters):
     cash_receipt_total_dict = {'voucher_type': '<b>Sum</b>', 'posting_date': '-------', 'voucher_no': '-------',
                                'party': '-------', 'debit': None, 'credit': 0,
                                'remarks': '--------------'}
-    credit = 0
+    debit = 0
     for index, cr in enumerate(cash_receipt_result):
-        credit += cr.credit
+        debit += cr.debit
         cash_receipt_result[index][
             'party'] = f"{cash_receipt_result[index]['party']}  {' / ' + cash_receipt_result[index]['party_type'] if cash_receipt_result[index]['party_type'] else ''} {' / ' + cash_receipt_result[index]['party'] if cash_receipt_result[index]['party'] else ''}"
 
-    cash_receipt_total_dict['credit'] = credit
+    cash_receipt_total_dict['debit'] = debit
     cash_receipt_result = cash_receipt_header_dict + cash_receipt_result
     cash_receipt_result.append(cash_receipt_total_dict)
     # ====================CALCULATING TOTAL IN CASH RECEIVED END====================
@@ -161,20 +162,20 @@ def get_data(filters):
     cash_payment_total_dict = {'voucher_type': '<b>Sum</b>', 'posting_date': '-------', 'voucher_no': '-------',
                                'party': '-------', 'debit': None, 'credit': 0,
                                'remarks': '--------------'}
-    debit = 0
+    credit = 0
     for index, cr in enumerate(cash_payment_result):
-        debit += cr.debit
+        credit += cr.credit
         cash_payment_result[index][
             'party'] = f"{cash_payment_result[index]['party']}  {' / ' + cash_payment_result[index]['party_type'] if cash_payment_result[index]['party_type'] else ''} {' / ' + cash_payment_result[index]['party'] if cash_payment_result[index]['party'] else ''}"
 
-    cash_payment_total_dict['debit'] = debit
+    cash_payment_total_dict['credit'] = credit
     cash_payment_result = cash_payment_header_dict + cash_payment_result
     cash_payment_result.append(cash_payment_total_dict)
     # ====================CALCULATING TOTAL IN CASH PAID END====================
     # ====================BALANCE====================
     cash_payment_total_dict = {'voucher_type': '<b>BALANCE</b>', 'posting_date': '', 'voucher_no': '',
                                'party': '', 'debit': debit, 'credit': credit,
-                               'remarks':f"<b>{credit - debit}</b>"}
+                               'remarks': f"<b>{debit - credit}</b>"}
 
     cash_payment_result.append(cash_payment_total_dict)
     # ====================BALANCE END====================

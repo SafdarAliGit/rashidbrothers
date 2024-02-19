@@ -99,7 +99,17 @@ def get_account_type_from_name(account_name):
 
 def get_data(filters):
     data = []
-
+    sum_debit_and_credit = """
+                    SELECT
+                        SUM(CASE WHEN `tabGL Entry`.debit > 0 THEN `tabGL Entry`.debit ELSE 0 END) AS total_debit,
+                        SUM(CASE WHEN `tabGL Entry`.credit > 0 THEN `tabGL Entry`.credit ELSE 0 END) AS total_credit
+                    FROM
+                        `tabGL Entry`
+                    WHERE
+                        `tabGL Entry`.is_cancelled = 0
+                        AND `tabGL Entry`.posting_date < '{start_date}'
+                        AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) = 'Cash'
+                """.format(start_date=filters.get("from_date"))
     cash_receipt = """SELECT
 						`tabGL Entry`.posting_date,
 						`tabGL Entry`.account as party,
@@ -134,8 +144,17 @@ def get_data(filters):
 						AND (SELECT `account_type` FROM `tabAccount` WHERE `name` = `tabGL Entry`.account) ='Cash'
 				""".format(conditions=get_conditions(filters, "GL Entry"))
 
+    sum_debit_and_credit_result = frappe.db.sql(sum_debit_and_credit, as_dict=1)
     cash_receipt_result = frappe.db.sql(cash_receipt, filters, as_dict=1)
     cash_payment_result = frappe.db.sql(cash_payment, filters, as_dict=1)
+
+    # ====================OPENING BALANCE ROW====================#
+    opening_balance_dict = [{'voucher_type': '<b>OPENING BALANCE</b>', 'posting_date': '', 'voucher_no': '',
+                                 'party': '', 'debit': '', 'credit': '','remarks':''
+                                 }]
+    opening_balance_dict[0]['debit'] = sum_debit_and_credit_result[0]['total_debit']
+    opening_balance_dict[0]['credit'] = sum_debit_and_credit_result[0]['total_credit']
+    opening_balance_dict[0]['remarks'] = sum_debit_and_credit_result[0]['total_debit'] - sum_debit_and_credit_result[0]['total_credit']
 
     # ====================CALCULATING TOTAL IN CASH RECEIVED====================
     cash_receipt_header_dict = [{'voucher_type': '<b><u>Cash Receipt</b></u>', 'posting_date': '', 'voucher_no': '',
@@ -151,7 +170,7 @@ def get_data(filters):
             'party'] = f"{cash_receipt_result[index]['party']}  {' / ' + cash_receipt_result[index]['party_type'] if cash_receipt_result[index]['party_type'] else ''} {' / ' + cash_receipt_result[index]['party'] if cash_receipt_result[index]['party'] else ''}"
 
     cash_receipt_total_dict['debit'] = debit
-    cash_receipt_result = cash_receipt_header_dict + cash_receipt_result
+    cash_receipt_result = opening_balance_dict + cash_receipt_header_dict + cash_receipt_result
     cash_receipt_result.append(cash_receipt_total_dict)
     # ====================CALCULATING TOTAL IN CASH RECEIVED END====================
 
@@ -169,13 +188,13 @@ def get_data(filters):
             'party'] = f"{cash_payment_result[index]['party']}  {' / ' + cash_payment_result[index]['party_type'] if cash_payment_result[index]['party_type'] else ''} {' / ' + cash_payment_result[index]['party'] if cash_payment_result[index]['party'] else ''}"
 
     cash_payment_total_dict['credit'] = credit
-    cash_payment_result = cash_payment_header_dict + cash_payment_result
+    cash_payment_result =  cash_payment_header_dict + cash_payment_result
     cash_payment_result.append(cash_payment_total_dict)
     # ====================CALCULATING TOTAL IN CASH PAID END====================
     # ====================BALANCE====================
     cash_payment_total_dict = {'voucher_type': '<b>BALANCE</b>', 'posting_date': '', 'voucher_no': '',
-                               'party': '', 'debit': debit, 'credit': credit,
-                               'remarks': f"<b>{debit - credit}</b>"}
+                               'party': '', 'debit': debit + sum_debit_and_credit_result[0]['total_debit'], 'credit': credit + sum_debit_and_credit_result[0]['total_credit'],
+                               'remarks': f"<b>{(debit + sum_debit_and_credit_result[0]['total_debit']) - (credit + sum_debit_and_credit_result[0]['total_credit'])}</b>"}
 
     cash_payment_result.append(cash_payment_total_dict)
     # ====================BALANCE END====================
